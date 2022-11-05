@@ -1,6 +1,4 @@
 
-
-
 const  getAppointmentsForDay  = function (state, day) {
 
     const filteredDay = state.days.find(user => user.name === day);
@@ -33,5 +31,22 @@ const getInterview = function(state, interview) {
 }
 
 
-export {getAppointmentsForDay , getInterview}
 
+const getInterviewersForDay = function (state, day) {
+
+    const filteredDay = state.days.find(user => user.name === day);
+
+    if(filteredDay === undefined){
+        return [];
+    }
+
+    const assortedInterviewers = filteredDay.interviewers
+
+    return assortedInterviewers;
+
+}
+
+
+
+
+export {getAppointmentsForDay , getInterview, getInterviewersForDay }

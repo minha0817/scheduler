@@ -3,7 +3,7 @@ import React, {useState} from "react";
 export default function useVisualMode(initial) {
 
     const [mode, setMode] = useState(initial);
-    const [history, setHistory] = useState([initial]);
+    const [history, setHistory] = useState([initial]); //[EMPTY, FORM]
 
     const transition = function(newMode, replace = false) {
 
@@ -40,5 +40,5 @@ export default function useVisualMode(initial) {
     }
 
 
-    return {mode, transition, back}
+    return {mode, transition, back, history}
 }
