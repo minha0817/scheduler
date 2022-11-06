@@ -17,6 +17,7 @@ export default function Application(props) {
   })
 
 
+  
   const setDay = (day) => setState( prev => ({ ...prev, day }));
 
   // const setDays = (days) => setState(prev => ({ ...prev, days }));
@@ -25,7 +26,9 @@ export default function Application(props) {
 
   const schedule = appointments.map(appointment => {
 
-    const interviewers = getInterviewersForDay(state, appointment.interview)
+
+
+    const interviewers = getInterviewersForDay(state, state.day)
 
     const interview = getInterview(state, appointment.interview)
 
