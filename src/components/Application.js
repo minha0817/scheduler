@@ -15,25 +15,53 @@ export default function Application(props) {
     appointments: {},
     interviewers: {}
   })
+  //Application state when interview is null
+  // {
+  //   day: "",
+  //   days: [],
+  //   appointments: {
+  //     "1": {
+  //       id: 1,
+  //       time: "12pm",
+  //       interview: null
+  //     }
+  //   },
+  //   interviewers: {}
+  // }
+
+  function bookInterview (id, interview) { //appointment id
 
 
+    axios
+      .put("/api/appointments/:id", id, interview)
+      // .then((res) => console.log("res.data", res.data))
+
+
+      // const appointment = {
+      //   ...state.appointments[id],
+      //   interview: { ...interview }
+      // };
   
+      // const appointments = {
+      //   ...state.appointments,
+      //   [id]: appointment
+      // };
+      // // console.log("bookInterview's appointments:", appointments)
+      // setState({...state, appointments})
+  }
+
+
   const setDay = (day) => setState( prev => ({ ...prev, day }));
 
   // const setDays = (days) => setState(prev => ({ ...prev, days }));
-
+  //이 appointments 이놈이 중요하다. 
   const appointments = getAppointmentsForDay(state, state.day);
 
   const schedule = appointments.map(appointment => {
 
-
-
     const interviewers = getInterviewersForDay(state, state.day)
 
     const interview = getInterview(state, appointment.interview)
-
-
-    console.log("interviewers:", interviewers)
 
     return (
       <Appointment 
@@ -43,11 +71,10 @@ export default function Application(props) {
         time={appointment.time}
         interviewers={interviewers}
         interview={interview}
-        
+        bookInterview = {bookInterview}
       />
     )
   })
-
 
 
   useEffect(() => {

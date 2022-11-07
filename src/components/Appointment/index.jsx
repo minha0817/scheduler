@@ -12,10 +12,20 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 
 
-export default function Appointment (props) {
-
+export default function Appointment (props) {   //props.bookInterview
+  
     const {mode, transition, back, history} = useVisualMode(EMPTY)
- 
+
+    function save(name, interviewer){ //will pass this function to the Form component, Form should capture name and interviewer
+        const interview = {             // and pass them to props.onSave as arguments. 
+          student: name,                //and new interview obj will be passed to props.bookInterview
+          interviewer
+        }
+        // console.log("props:", props)
+        props.bookInterview(props.id, interview)
+        transition(SHOW)
+      }
+    
     return (
         <article className="appointment">
 
@@ -34,7 +44,7 @@ export default function Appointment (props) {
                 <Form 
 
                     interviewers={props.interviewers}
-                    onSave={() => {console.log("Clicked onSave!!")}}
+                    onSave={save}
                     onCancel={() => back()}
 
                 />}
