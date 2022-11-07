@@ -15,7 +15,7 @@ const  getAppointmentsForDay  = function (state, day) {
 
     return result;
 };
-    
+
 // result of appointments
 // {
 //     0: {id: 1, time: '12pm', interview: null}

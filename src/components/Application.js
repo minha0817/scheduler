@@ -32,22 +32,20 @@ export default function Application(props) {
   function bookInterview (id, interview) { //appointment id
 
 
-    axios
-      .put("/api/appointments/:id", id, interview)
-      // .then((res) => console.log("res.data", res.data))
-
-
-      // const appointment = {
-      //   ...state.appointments[id],
-      //   interview: { ...interview }
-      // };
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
   
-      // const appointments = {
-      //   ...state.appointments,
-      //   [id]: appointment
-      // };
-      // // console.log("bookInterview's appointments:", appointments)
-      // setState({...state, appointments})
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+
+    axios
+      .put(`/api/appointments/${id}`, {interview})
+      .then((res) =>  setState({...state, appointments}))
+
   }
 
 
@@ -56,10 +54,8 @@ export default function Application(props) {
   // const setDays = (days) => setState(prev => ({ ...prev, days }));
   //이 appointments 이놈이 중요하다. 
   const appointments = getAppointmentsForDay(state, state.day);
-
+  const interviewers = getInterviewersForDay(state, state.day)
   const schedule = appointments.map(appointment => {
-
-    const interviewers = getInterviewersForDay(state, state.day)
 
     const interview = getInterview(state, appointment.interview)
 
@@ -81,7 +77,8 @@ export default function Application(props) {
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
-      axios.get('./api/interviewers')
+      // why . ?
+      axios.get('/api/interviewers')
     ]).then((all) => {
   
       setState((prev) => ({
