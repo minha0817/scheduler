@@ -4,28 +4,29 @@ import Header from "./Header"
 import Show from "./Show"
 import Empty from "./Empty";
 import Form from "./Form";
+import Status from './Status';
 import useVisualMode from 'hooks/useVisualMode';
 
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVING = "SAVING"
 
-
-export default function Appointment (props) {   //props.bookInterview
+export default function Appointment (props) { 
   
     const {mode, transition, back, history} = useVisualMode(props.interview ? SHOW : EMPTY)
 
-    function save(name, interviewer){ //will pass this function to the Form component, Form should capture name and interviewer
-        const interview = {             // and pass them to props.onSave as arguments. 
-          student: name,                //and new interview obj will be passed to props.bookInterview
+    function save(name, interviewer){ 
+        const interview = {             
+          student: name,      
           interviewer
         }
 
-
-        // console.log("props:", props)
+        transition(SAVING)
         props.bookInterview(props.id, interview)
-        transition(SHOW)
+            .then(() =>  transition(SHOW))
+        // transition(SHOW)
       }
     
     return (
@@ -49,6 +50,11 @@ export default function Appointment (props) {   //props.bookInterview
                     onSave={save}
                     onCancel={() => back()}
 
+                />}
+            
+            {mode === SAVING && 
+                <Status 
+                    message={"Saving..."}
                 />}
 
         </article>

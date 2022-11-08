@@ -20,7 +20,6 @@ export default function useVisualMode(initial) {
         const newHistory = [...history, newMode]
         setMode(newMode)
         setHistory(newHistory)
-
     }
 
 
