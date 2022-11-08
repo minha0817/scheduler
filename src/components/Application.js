@@ -5,7 +5,7 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import {getAppointmentsForDay , getInterview, getInterviewersForDay } from '../helpers/selector';
-import { useApplicationData } from "hooks/useApplicationData";
+import  useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
 
@@ -41,7 +41,7 @@ export default function Application(props) {
 
   const interviewers = getInterviewersForDay(state, state.day);
   const appointments = getAppointmentsForDay(state, state.day).map(appointment => {
-
+  console.log("days:", state.days)
     return (
       <Appointment 
 

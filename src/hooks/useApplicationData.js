@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios";
 
 
-export function useApplicationData () {
+export default function useApplicationData () {
 
     const [state, setState] = useState({
         day: "Monday",
@@ -30,6 +30,21 @@ export function useApplicationData () {
         })
     },[])
 
+//update spots
+
+//1. daysOfWeek 으로 각각 day의 id 찾기 (Monday : 0 .....)
+const findDayId = function (day) {
+    const days = {
+        Monday: 0,
+        Tuesday: 1,
+        Wednesday: 2,
+        Thursday: 3,
+        Friday: 4
+    }
+    return days[day]  // 0
+}
+
+const dayId = findDayId(state.day)
 
     const bookInterview  = function (id, interview) { //appointment id
         // console.log(interview, "interview in book interview")
@@ -38,14 +53,44 @@ export function useApplicationData () {
             interview: { ...interview }
         };
     
-        const appointments = {
+        const appointments = {            //  {1:{appointment}, 2:{appointment}, .....} 
             ...state.appointments,
             [id]: appointment
         };
-    
+        //appointement
+        // {
+        //     "id": 1,
+        //     "time": "12pm",
+        //     "interview": {
+        //         "student": "Archie Cohen",
+        //         "interviewer": 4
+        //     }
+        // }
+
+        let day = {
+            ...state.days[dayId],
+            spots: state.days[dayId].spots
+        }
+
+        if(!state.appointments[id].interview){
+            day = {
+                ...state.days[dayId],
+                spots: state.days[dayId].spots - 1
+            }
+        } else {
+            day = {
+                ...state.days[dayId],
+                spots: state.days[dayId].spots - 1
+            }
+        }
+
+
+        let days = state.days
+        days[dayId] = day;
+
         return axios
             .put(`/api/appointments/${id}`, {interview})
-            .then(() =>  setState({...state, appointments}))
+            .then(() =>  setState({...state, appointments, days}))
     }
     
     
@@ -60,32 +105,46 @@ export function useApplicationData () {
             ...state.appointments,
             [id]: appointment
         };
-    
+        
+        const day = {
+            ...state.days[dayId],
+            spots: state.days[dayId].spots + 1
+        }
+
+        let days = state.days
+        days[dayId] = day
+
         return axios
             .delete(`/api/appointments/${id}`)
-            .then(() => setState({...state, appointments})) 
+            .then(() => setState({...state, appointments, days})) 
         
         }
-    
 
-                //updateSpots
-                //With getAppointmentsForDay, We have all the appointments for day and we can check if the interview is null or not.
-                //When do we update? when create -> onSave happened. we minus one (update the state with the new number of spots in bookInterview funciton)
-                //                   when confirm -> onConfirm happened. we plus one. (update the state with the new number of spots in the cancelInterview function )  
-                    
-    
-
-    // day 
-    // {
-    //     id: 1,
-    //     name: "Monday",
-    //     appointments: [1,2,3,4,5]
-    //     spots: 2      //이 spots을 업데이트해서 day를 setState 하는건 알겠는데...
-    //   }
-
-
-    return {state, setDay, bookInterview, cancelInterview, updateSpots}
+    return {state, setDay, bookInterview, cancelInterview}
 
 }
 
 
+
+//       state.days
+// [{
+//     "id": 1,
+//     "name": "Monday",
+//     "appointments": [
+//         1,
+//         2,
+//         3,
+//         4,
+//         5
+//     ],
+//     "interviewers": [
+//         1,
+//         3,
+//         4,
+//         6,
+//         7
+//     ],
+//     "spots": 2
+// },
+// ...
+// ]
