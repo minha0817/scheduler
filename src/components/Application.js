@@ -31,6 +31,8 @@ export default function Application(props) {
   // }  
   const bookInterview  = function (id, interview) { //appointment id
 
+    console.log(interview, "interview in book interview")
+
       const appointment = {
         ...state.appointments[id],
         interview: { ...interview }
@@ -64,6 +66,8 @@ export default function Application(props) {
       .then(() => setState({...state, appointments})) 
       // .then(() => console.log("appointmentssss:", appointments))
   }
+
+
 
 
   const setDay = (day) => setState( prev => ({ ...prev, day }));
