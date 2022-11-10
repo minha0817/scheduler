@@ -74,16 +74,7 @@ export default function useApplicationData () {
         //     }
         // }
 
-        // const index = state.days.findIndex(d => d.name === state.day)
-        // const dayObj = state.days[index]
-
-        // let spots = dayObj.spots
-        // spots = spots - 1
-        // let day = {...dayObj,spots}
-        // let days = [...state.days]
-        // days[index] = day;
-
-        const days = updateSpots("decrease")
+        const days = state.appointments[id].interview ? state.days : updateSpots("decrease") 
 
         return axios
             .put(`/api/appointments/${id}`, {interview})
@@ -113,7 +104,6 @@ export default function useApplicationData () {
     return {state, setDay, bookInterview, cancelInterview}
 
 }
-
 
 
 //       state.days

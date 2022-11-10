@@ -173,6 +173,7 @@ storiesOf("Appointment", module)
           interviewer={interviewer}
           onEdit={action("onEdit")}
           onDelete={action("onDelete")}
+          
         />
       ))
       .add("Confirm", () => (
