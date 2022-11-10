@@ -30,6 +30,28 @@ export default function useApplicationData () {
         })
     },[])
 
+    const updateSpots = function(update) {
+        
+        const index = state.days.findIndex(d => d.name === state.day)
+        const dayObj = state.days[index]
+
+        let spots = dayObj.spots
+
+        if(update === "decrease") {
+            spots = spots - 1
+        }
+
+        if(update === "increase"){
+            spots = spots + 1
+        }
+
+        let day = {...dayObj,spots}
+        let days = [...state.days]
+        days[index] = day;
+
+        return days
+    }
+
 
     const bookInterview  = function (id, interview) { //appointment id
         // console.log(interview, "interview in book interview")
@@ -52,17 +74,16 @@ export default function useApplicationData () {
         //     }
         // }
 
-        const index = state.days.findIndex(d => d.name === state.day)
-        const dayObj = state.days[index]
+        // const index = state.days.findIndex(d => d.name === state.day)
+        // const dayObj = state.days[index]
 
-        let spots = dayObj.spots
-        if(!state.appointments[id].interview){
-            spots = spots - 1
-        }
+        // let spots = dayObj.spots
+        // spots = spots - 1
+        // let day = {...dayObj,spots}
+        // let days = [...state.days]
+        // days[index] = day;
 
-        let day = {...dayObj,spots}
-        let days = [...state.days]
-        days[index] = day;
+        const days = updateSpots("decrease")
 
         return axios
             .put(`/api/appointments/${id}`, {interview})
@@ -82,23 +103,11 @@ export default function useApplicationData () {
             [id]: appointment
         };
         
-        const index = state.days.findIndex(d => d.name === state.day)
-        const dayObj = state.days[index]
-
-        let spots = dayObj.spots
-        if(!state.appointments[id].interview){
-            spots = dayObj.spots + 1
-        }
-        
-        let day = {...dayObj,spots}
-        let days = [...state.days]
-        days[index] = day;
-
+        const days = updateSpots("increase")
 
         return axios
             .delete(`/api/appointments/${id}`)
             .then(() => setState({...state, appointments, days})) 
-        
         }
 
     return {state, setDay, bookInterview, cancelInterview}
