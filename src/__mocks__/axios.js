@@ -62,7 +62,7 @@ export default {
                 statusText: "OK",
                 data: fixtures.days
             });
-        }
+        };
 
         if (url === "/api/appointments") {
             /* Resolve appointments data */
@@ -70,8 +70,8 @@ export default {
                 status: 200,
                 statusText: "OK",
                 data: fixtures.appointments
-            })
-        }
+            });
+        };
 
         if (url === "/api/interviewers") {
             /* Resolve interviewers data */
@@ -79,8 +79,8 @@ export default {
                 status: 200,
                 statusText: "OK",
                 data: fixtures.interviewers
-            })
-        }
+            });
+        };
 
     }),
 
@@ -91,16 +91,16 @@ export default {
             return Promise.resolve({ 
                 status: 204, 
                 statusText: "No Content" 
-            })
-        }
+            });
+        };
 
         if (url === "/api/appointments/2") {
             /* Resolve appointments data */
             return Promise.resolve({ 
                 status: 204, 
                 statusText: "No Content" 
-            })
-        }
+            });
+        };
 
     }),
 
@@ -111,8 +111,8 @@ export default {
             return Promise.resolve({ 
                 status: 204, 
                 statusText: "No Content" 
-            })
-        }
+            });
+        };
 
     })
 
