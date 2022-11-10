@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Status (props) {
+
     return (
         <main className="appointment__card appointment__card--status">
             <img
@@ -11,4 +12,5 @@ export default function Status (props) {
             <h1 className="text--semi-bold" data-testid="text--status">{props.message}</h1>
         </main>
     )
+    
 }

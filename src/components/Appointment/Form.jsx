@@ -4,7 +4,6 @@ import InterviewerList from "components/InterviewerList";
 
 export default function Form (props) {
 
-    // setInterviewer should receive an id as an argument. example. setInterviewer(3)
     const [interviewer, setInterviewer] = useState(props.interviewer || null);
     const [name, setName] = useState(props.name || "");
     const [error, setError] = useState("");

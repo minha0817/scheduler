@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React from 'react'
 import "./styles.scss";
 import Header from "./Header"
 import Show from "./Show"
@@ -20,10 +20,12 @@ const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
+
 export default function Appointment (props) { 
 
-    const {mode, transition, back, history} = useVisualMode(props.interview ? SHOW : EMPTY)
+    const {mode, transition, back} = useVisualMode(props.interview ? SHOW : EMPTY)
 
+    // It's for saving new interview 
     function save(name, interviewer){ 
         const interview = {             
             student: name,      
@@ -37,6 +39,7 @@ export default function Appointment (props) {
 
     }
 
+    // It's for confirmation of deleting
     function confirm() {
         transition(DELETE, true)
         props.cancelInterview(props.id)
@@ -46,11 +49,13 @@ export default function Appointment (props) {
     }
 
     return (
+
         <article className="appointment" data-testid="appointment" >
 
             <Header 
                 time={props.time}/>
             {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+
             {mode === SHOW && (
                 <Show
                     student={props.interview && props.interview.student}
@@ -59,6 +64,7 @@ export default function Appointment (props) {
                     onDelete={() => transition(CONFIRM)}
                 />
             )}
+
             {mode === CREATE && 
                 <Form 
 
@@ -67,6 +73,7 @@ export default function Appointment (props) {
                     onSave={save}
                     onCancel={() => back()}
                 />}
+
             {mode === EDIT && 
                 <Form
                     name={props.interview && props.interview.student}
@@ -76,6 +83,7 @@ export default function Appointment (props) {
                     onCancel={() => back()}
 
                 />}
+
             {mode === SAVING && 
                 <Status 
                     message={"Saving..."}
@@ -94,18 +102,21 @@ export default function Appointment (props) {
                     onConfirm={confirm}
                 />
             }
+
             {mode === ERROR_SAVE && 
                 <Error 
                     message={`Oopsy, Saving doesn't work at this moment. Please try again `}
                     onClose={() => back()}
                 />
             }
+
             {mode === ERROR_DELETE && 
                 <Error 
                     message={`Oopsy, Deleting doesn't work at this moment. Please try again `}
                     onClose={() => back()}
                 />
             }
+            
         </article>
 
     )
