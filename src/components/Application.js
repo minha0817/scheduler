@@ -9,12 +9,7 @@ import  useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
 
-  const {
-    state,
-    setDay,
-    bookInterview,
-    cancelInterview
-  } = useApplicationData();
+  const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
 
                     //Application state when interview is null
                     // {
@@ -54,7 +49,7 @@ export default function Application(props) {
       />
     )
   })
-
+  console.log(state.days, "state.days")
 
   return (
     <main className="layout">

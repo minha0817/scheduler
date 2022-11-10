@@ -88,7 +88,10 @@ export default {
 
         if (url === "/api/appointments/1") {
             /* Resolve appointments data */
-            return Promise.resolve(({ status: 204, statusText: "No Content" }))
+            return Promise.resolve({ 
+                status: 204, 
+                statusText: "No Content" 
+            })
         }
 
     })

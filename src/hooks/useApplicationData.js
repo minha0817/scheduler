@@ -30,21 +30,6 @@ export default function useApplicationData () {
         })
     },[])
 
-//update spots
-
-//1. daysOfWeek 으로 각각 day의 id 찾기 (Monday : 0 .....)
-const findDayId = function (day) {
-    const days = {
-        Monday: 0,
-        Tuesday: 1,
-        Wednesday: 2,
-        Thursday: 3,
-        Friday: 4
-    }
-    return days[day]  // 0
-}
-
-const dayId = findDayId(state.day)
 
     const bookInterview  = function (id, interview) { //appointment id
         // console.log(interview, "interview in book interview")
@@ -67,26 +52,17 @@ const dayId = findDayId(state.day)
         //     }
         // }
 
-        let day = {
-            ...state.days[dayId],
-            spots: state.days[dayId].spots
-        }
+        const index = state.days.findIndex(d => d.name === state.day)
+        const dayObj = state.days[index]
 
+        let spots = dayObj.spots
         if(!state.appointments[id].interview){
-            day = {
-                ...state.days[dayId],
-                spots: state.days[dayId].spots - 1
-            }
-        } else {
-            day = {
-                ...state.days[dayId],
-                spots: state.days[dayId].spots - 1
-            }
+            spots = spots - 1
         }
 
-
-        let days = state.days
-        days[dayId] = day;
+        let day = {...dayObj,spots}
+        let days = [...state.days]
+        days[index] = day;
 
         return axios
             .put(`/api/appointments/${id}`, {interview})
@@ -106,13 +82,18 @@ const dayId = findDayId(state.day)
             [id]: appointment
         };
         
-        const day = {
-            ...state.days[dayId],
-            spots: state.days[dayId].spots + 1
-        }
+        const index = state.days.findIndex(d => d.name === state.day)
+        const dayObj = state.days[index]
 
-        let days = state.days
-        days[dayId] = day
+        let spots = dayObj.spots
+        if(!state.appointments[id].interview){
+            spots = dayObj.spots + 1
+        }
+        
+        let day = {...dayObj,spots}
+        let days = [...state.days]
+        days[index] = day;
+
 
         return axios
             .delete(`/api/appointments/${id}`)
