@@ -9,13 +9,11 @@ export default function useApplicationData () {
         days: [],
         appointments: {},
         interviewers: {}
-    })
+    });
     
-    //it sets the day inside state.
+    // It sets the day inside state.
     const setDay = (day) => setState( prev => ({ ...prev, day }));
     
-    // const setDays = (days) => setState(prev => ({ ...prev, days }));
-
     useEffect(() => {
         Promise.all([
             axios.get('/api/days'),
@@ -28,8 +26,9 @@ export default function useApplicationData () {
             }))
     
         })
-    },[])
+    },[]);
 
+    // Function to update the remaining spots for each day.
     const updateSpots = function(update) {
         
         const index = state.days.findIndex(d => d.name === state.day)
@@ -52,27 +51,18 @@ export default function useApplicationData () {
         return days
     }
 
+    
+    const bookInterview  = function (id, interview) { 
 
-    const bookInterview  = function (id, interview) { //appointment id
-        // console.log(interview, "interview in book interview")
         const appointment = {
             ...state.appointments[id],
             interview: { ...interview }
         };
     
-        const appointments = {            //  {1:{appointment}, 2:{appointment}, .....} 
+        const appointments = {           
             ...state.appointments,
             [id]: appointment
         };
-        //appointement
-        // {
-        //     "id": 1,
-        //     "time": "12pm",
-        //     "interview": {
-        //         "student": "Archie Cohen",
-        //         "interviewer": 4
-        //     }
-        // }
 
         const days = state.appointments[id].interview ? state.days : updateSpots("decrease") 
 
@@ -104,27 +94,3 @@ export default function useApplicationData () {
     return {state, setDay, bookInterview, cancelInterview}
 
 }
-
-
-//       state.days
-// [{
-//     "id": 1,
-//     "name": "Monday",
-//     "appointments": [
-//         1,
-//         2,
-//         3,
-//         4,
-//         5
-//     ],
-//     "interviewers": [
-//         1,
-//         3,
-//         4,
-//         6,
-//         7
-//     ],
-//     "spots": 2
-// },
-// ...
-// ]

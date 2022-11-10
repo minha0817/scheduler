@@ -3,7 +3,7 @@ import React, {useState} from "react";
 export default function useVisualMode(initial) {
 
     const [mode, setMode] = useState(initial);
-    const [history, setHistory] = useState([initial]); //[EMPTY, FORM]
+    const [history, setHistory] = useState([initial]);
 
     const transition = function(mode, replace = false) {
 
@@ -22,19 +22,6 @@ export default function useVisualMode(initial) {
 
             return current;
         })
-        // if(replace){
-
-        //     const replacedHistory = [...history]
-        //     replacedHistory[replacedHistory.length - 1] = newMode
-        //     setHistory((history) => (replacedHistory))
-        //     setMode(newMode)
-        //     return 
-        // }
-
-
-        // const newHistory = [...history, newMode]
-        // setMode(newMode)
-        // setHistory((history) => (newHistory))
     }
 
 
